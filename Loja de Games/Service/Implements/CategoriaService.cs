@@ -16,7 +16,7 @@ namespace Loja_de_Games.Service.Implements
         public async Task<IEnumerable<Categoria>> GetAll()
         {
             return await _context.Categorias
-                //.Include(t => t.Produto)
+                .Include(c => c.Produto)
                 .ToListAsync();
         }
 
@@ -25,7 +25,7 @@ namespace Loja_de_Games.Service.Implements
             try
             {
                 var Categoria = await _context.Categorias
-                    .Include(t => t.Produto)
+                    .Include(c => c.Produto)
                     .FirstAsync(i => i.Id == id);
 
                 return Categoria;
@@ -39,7 +39,7 @@ namespace Loja_de_Games.Service.Implements
         public async Task<IEnumerable<Categoria>> GetByTipo(string tipo)
         {
             var Categoria = await _context.Categorias
-                .Include(t => t.Produto)
+                .Include(c => c.Produto)
                 .Where(t => t.Tipo.Contains(tipo))
                 .ToListAsync();
             return Categoria;

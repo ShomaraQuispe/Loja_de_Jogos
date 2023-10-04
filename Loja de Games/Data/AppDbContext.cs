@@ -20,6 +20,5 @@ namespace Loja_de_Games.Data
         }
         public DbSet<Produto> Produtos { get; set; }=null!;
         public DbSet<Categoria> Categorias { get; set; } = null!;
-        public object Categoria { get; internal set; }
     }
 }

@@ -37,11 +37,10 @@ namespace Loja_de_Games.Controllers
             return Ok(Resposta);
         }
 
-
-        [HttpGet("console/{console}")]
-        public async Task<ActionResult> GetByConsole(string console)
+        [HttpGet("nome/{nome}")]
+        public async Task<ActionResult> GetByNome(string nome)
         {
-            return Ok(await _produtoService.GetByConsole(console));
+            return Ok(await _produtoService.GetByNome(nome));
         }
 
         [HttpPost]

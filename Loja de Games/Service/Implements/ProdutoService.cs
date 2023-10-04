@@ -21,9 +21,10 @@ namespace Loja_de_Games.Service.Implements
 
                 if (BuscaCategoria is null)
                     return null;
+
+                produto.Categoria = BuscaCategoria;
             }
 
-            produto.Categoria = produto.Categoria is not null ? _context.Categorias.FirstOrDefault(t => t.Id == produto.Categoria.Id) : null;
             await _context.Produtos.AddAsync(produto);
             await _context.SaveChangesAsync();
 
@@ -41,10 +42,11 @@ namespace Loja_de_Games.Service.Implements
             return await _context.Produtos.ToListAsync();
         }
 
-        public async Task<IEnumerable<Produto>> GetByConsole(string console)
+        public async Task<IEnumerable<Produto>> GetByNome(string nome)
         {
             var Produto = await _context.Produtos
-                .Where(p => p.Console.Contains(console))
+                .Include(p => p.Categoria)
+                .Where(p => p.Name.Contains(nome))
                 .ToListAsync();
             return Produto;
         }
@@ -53,7 +55,9 @@ namespace Loja_de_Games.Service.Implements
         {
             try
             {
-                var Produto = await _context.Produtos.FirstOrDefaultAsync(i => i.Id == id);
+                var Produto = await _context.Produtos
+                    .Include(p => p.Categoria)
+                    .FirstAsync(i => i.Id == id);
                 return Produto;
             }
             catch
@@ -73,10 +77,12 @@ namespace Loja_de_Games.Service.Implements
             }
             if (produto.Categoria is not null)
             {
-                var BuscaCategoria = await _context.Produtos.FindAsync(produto.Categoria.Id);
+                var BuscaCategoria = await _context.Categorias.FindAsync(produto.Categoria.Id);
 
                 if (BuscaCategoria is null)
                     return null;
+
+                produto.Categoria = BuscaCategoria;
             }
 
             _context.Entry(produtoUpdate).State = EntityState.Detached;
