@@ -59,7 +59,7 @@ namespace Loja_de_Games.Service.Implements
             return categoria;
         }
 
-        public async Task<Categoria> Create(Categoria categoria)
+        public async Task<Categoria?> Create(Categoria categoria)
         {
             _context.Categorias.Add(categoria);
             await _context.SaveChangesAsync();
